@@ -9,7 +9,7 @@ let Operation = (props)=>{
     }
     return(
         <div className="operation-btn">
-
+            
         <button onClick={(e)=>{changeOptr(e)}}>+</button>
         <button onClick={(e)=>{changeOptr(e)}}>-</button>
         <button onClick={(e)=>{changeOptr(e)}}>/</button>

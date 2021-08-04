@@ -10,16 +10,16 @@ class App extends React.Component {
      currentOP:0,
   };
   inputV1=async (value)=>{
-    await this.setState({inputVal1:value});
+    await this.setState({inputVal1:value,currentOP:value});
     console.log(this.state.inputVal1);
   }
   inputV2=async (value)=>{
-    await this.setState({inputVal2:value});
+    await this.setState({inputVal2:value,currentOP:this.state.inputVal1+this.state.currentOperation+value});
     console.log(this.state.inputVal2);
   }
   
   changeOptr=async (optr)=>{
-    await this.setState({currentOperation:optr});
+    await this.setState({currentOperation:optr,currentOP:this.state.inputVal1+optr});
     console.log(this.state.currentOperation);
   }
   answer=()=>{
