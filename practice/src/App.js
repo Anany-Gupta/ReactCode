@@ -10,6 +10,7 @@ class App extends React.Component {
      currentOP:0,
   };
   inputV1=async (value)=>{
+    
     await this.setState({inputVal1:value,currentOP:value});
     console.log(this.state.inputVal1);
   }
