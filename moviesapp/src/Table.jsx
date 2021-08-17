@@ -3,20 +3,38 @@ import "./Table.css";
 import React from "react";
 
 class Table extends React.Component {
-    render() {
+    state = {
+        currPage: 1,
+    };
 
+    selectPage = (value) => {
+        this.setState({ currPage: value });
+    };
+    render() {
+        
         let allMovies = this.props.moviesData;
         let currFilter = this.props.currentFilter;
-
+        
         let filteredMoviesArr = allMovies.filter((el) => {
+            
             if (currFilter === "All Genre") {
                 return el;
             } else if (el.genre.name === currFilter) {
                 return el;
-
+                
             }
         });
-        let MoviesToBeDisplayed = filteredMoviesArr.slice(0, 4);
+        // console.log(filteredMoviesArr[0]);
+        filteredMoviesArr = filteredMoviesArr.filter((el)=>{
+            let movieTitle=el.title.toLowerCase()
+            let searchTitle=this.props.search.toLowerCase()
+            return movieTitle.includes(searchTitle.trim());
+            
+        })
+        let startIndex = (this.state.currPage-1)*4;
+        let endIndex = Math.min(filteredMoviesArr.length,this.state.currPage*4)
+        let MoviesToBeDisplayed = filteredMoviesArr.slice(startIndex,endIndex);
+        let numberOfPages = Math.ceil(filteredMoviesArr.length / 4);
         return (
             <>
                 <div className="col-10">
@@ -44,11 +62,11 @@ class Table extends React.Component {
                                             onClick={() => {
                                                 this.props.toggleLike(el._id);
                                             }}
-                                        >
+                                            >
                                             {el.liked ? (
                                                 <span className="material-icons">favorite</span>
-                                            ) : (
-                                                <span className="material-icons">
+                                                ) : (
+                                                    <span className="material-icons">
                                                     favorite_border
                                                 </span>
                                             )}
@@ -65,7 +83,9 @@ class Table extends React.Component {
                     </table>
 
                 </div>
-                <Pagination />
+                <Pagination selectPage={this.selectPage}
+                    currPage={this.state.currPage}
+                    numberOfPages={numberOfPages} />
             </>
         )
     }
